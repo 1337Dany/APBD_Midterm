@@ -2,6 +2,7 @@
 using APBD_MidtermTest.dtos;
 using APBD_MidtermTest.exceptions;
 using APBD_MidtermTest.models;
+using Dapper;
 using Microsoft.Data.SqlClient;
 
 namespace APBD_MidtermTest.repositories;
@@ -120,8 +121,7 @@ public class ProjectRepositoryRepository(string connectionString) : IProjectRepo
 
         try
         {
-            var taskId = await connection.ExecuteScalarAsync<int>(sql, parameters);
-            return taskId;
+            await connection.ExecuteScalarAsync<int>(sql, parameters);
         }
         catch (Exception ex)
         {
@@ -129,7 +129,7 @@ public class ProjectRepositoryRepository(string connectionString) : IProjectRepo
         }
     }
     
-    private async Task ValidateForeignKeyExists(SqlConnection connection, string tableName, int id)
+    private async System.Threading.Tasks.Task ValidateForeignKeyExists(SqlConnection connection, string tableName, int id)
     {
         var sql = $"SELECT COUNT(1) FROM {tableName} WHERE Id{tableName} = @Id";
         var exists = await connection.ExecuteScalarAsync<bool>(sql, new { Id = id });
