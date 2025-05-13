@@ -12,6 +12,8 @@ public class DbService(IProjectRepository repo) : IDbService
         var teamMember = repo.GetTeamMemberById(id);
         var assignedTasks = repo.GetTasksOfTeamMemberById(id, isAssigned: true);
         var createdTasks = repo.GetTasksOfTeamMemberById(id, isAssigned: false);
+        
+        // Here I forgot to establish sql connection, I know how to fix id but had no time for it :D
 
         var result = new TasksOfTeamMemberDto
         {
