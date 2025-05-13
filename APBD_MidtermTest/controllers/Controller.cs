@@ -6,19 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace APBD_MidtermTest.controllers;
 
 [ApiController]
-[Route ("api/[controller]")]
+[Route ("api/tasks")]
 public class Controller(IDbService dbService)
 {
     private readonly IDbService _dbService = dbService;
 
-    [HttpGet("api/tasks/{id}")]
+    [HttpGet("{id}")]
     public async Task<IResult> GetById(int id)
     {
         var result = await _dbService.GetTasksOfTeamMemberAsync(id);
         return result == null ? Results.NotFound() : Results.Ok(result);
     }
 
-    [HttpGet("api/tasks")]
+    [HttpGet]
     public async Task<IResult> CreateTask(TaskDto dto)
     {
         if (dto == null)
