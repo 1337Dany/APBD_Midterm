@@ -13,10 +13,12 @@ public class ProjectRepositoryRepository(string connectionString) : IProjectRepo
 
     public dynamic GetTeamMemberById(int id)
     {
+        using var connection = new SqlConnection(_connectionString);
         var query = "SELECT * FROM TeamMember WHERE IdTeamMember = @Id";
-        using (var command = new SqlCommand(query, new SqlConnection(_connectionString)))
+        using (var command = new SqlCommand(query, connection))
         {
             command.Parameters.AddWithValue("@Id", id);
+            connection.Open();
             using (var reader = command.ExecuteReader())
             {
                 if (reader.Read())
@@ -53,9 +55,11 @@ public class ProjectRepositoryRepository(string connectionString) : IProjectRepo
             ORDER BY t.Deadline DESC";
 
         var tasks = new List<dynamic>();
-        using (var command = new SqlCommand(query, new SqlConnection(_connectionString)))
+        using var connection = new SqlConnection(_connectionString);
+        using (var command = new SqlCommand(query, connection))
         {
             command.Parameters.AddWithValue("@TeamMemberId", teamMemberId);
+            connection.Open();
             using (var reader = command.ExecuteReader())
             {
                 while (reader.Read())

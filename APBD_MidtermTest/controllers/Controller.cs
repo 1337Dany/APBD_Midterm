@@ -18,7 +18,7 @@ public class Controller(IDbService dbService)
         return result == null ? Results.NotFound() : Results.Ok(result);
     }
 
-    [HttpGet]
+    [HttpPost]
     public async Task<IResult> CreateTask(TaskDto dto)
     {
         if (dto == null)
